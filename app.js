@@ -116,6 +116,7 @@ app.post('/', (req, res) => {
   const timestamp = new Date().toISOString().replace('T', ' ').slice(0, 19);
   console.log(`\n\nWebhook received ${timestamp}\n`);
   console.log(JSON.stringify(req.body, null, 2));
+  res.status(200);
 
   try {
     const entry = req.body.entry?.[0];
@@ -148,7 +149,6 @@ app.post('/', (req, res) => {
     console.error("❌ Error processing webhook:");
     console.error(error.response?.data || error.message);
   }
-  res.status(200).end();
 });
 
 // Start the server
