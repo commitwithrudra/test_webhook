@@ -86,7 +86,7 @@
 // Import Express.js
 const express = require('express');
 
-// const axios = require("axios");
+const axios = require("axios");
 
 // Create an Express app
 const app = express();
@@ -110,11 +110,44 @@ app.get('/', (req, res) => {
   }
 });
 
+const ERPNEXT_API_URL = "https://unheard-ducky-profile.ngrok-free.dev/api/method/rudra_utility.api.update_whatsapp_status";
 // Route for POST requests
 app.post('/', (req, res) => {
   const timestamp = new Date().toISOString().replace('T', ' ').slice(0, 19);
   console.log(`\n\nWebhook received ${timestamp}\n`);
   console.log(JSON.stringify(req.body, null, 2));
+
+  try {
+    const entry = req.body.entry?.[0];
+    const changes = entry?.changes?.[0];
+    const value = changes?.value;
+
+    if (value?.statuses) {
+      for (let statusObj of value.statuses) {
+
+        const message_id = statusObj.id;
+        const status = statusObj.status;
+        const recipient = statusObj.recipient_id;
+
+        console.log(`\n📊 Status अपडेट`);
+        console.log(`Message ID: ${message_id}`);
+        console.log(`Status: ${status}`);
+        console.log(`To: ${recipient}`);
+
+        // 👉 Send to ERPNext
+        await axios.post(ERPNEXT_API_URL, {
+          message_id: message_id,
+          status: status
+        });
+
+        console.log("✅ ERPNext updated");
+      }
+    }
+
+  } catch (error) {
+    console.error("❌ Error processing webhook:");
+    console.error(error.response?.data || error.message);
+  }
   res.status(200).end();
 });
 
