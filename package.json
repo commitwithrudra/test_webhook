@@ -1,9 +1,14 @@
 {
   "name": "whatsapp-webhook",
   "version": "1.0.0",
+  "description": "Meta WhatsApp Webhook Server",
   "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
   "dependencies": {
     "express": "^4.18.2",
     "axios": "^1.6.0"
   }
 }
+
