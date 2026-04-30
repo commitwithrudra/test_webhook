@@ -110,7 +110,8 @@ app.get('/', (req, res) => {
   }
 });
 
-const ERPNEXT_API_URL = "https://unheard-ducky-profile.ngrok-free.dev/api/method/rudra_utility.api.update_whatsapp_status";
+// const ERPNEXT_API_URL = "https://unheard-ducky-profile.ngrok-free.dev/api/method/rudra_utility.api.update_whatsapp_status";
+const ERPNEXT_API_URL = "https://prochouse.frappe.cloud/api/method/rudra_utility.api.update_whatsapp_status";
 // Route for POST requests
 app.post('/', async (req, res) => {
   const timestamp = new Date().toISOString().replace('T', ' ').slice(0, 19);
